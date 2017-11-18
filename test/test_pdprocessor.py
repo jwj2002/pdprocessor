@@ -2,7 +2,19 @@
 Tests for `pdprocessor` module.
 """
 import pytest
-from pdprocessor import pdprocessor
+from pdprocessor.pdprocessor import PDProcessorError
+
+
+class TestPDProcessorError(object):
+
+    error = PDProcessorError("Error!")
+    try:
+        raise(error)
+    except PDProcessorError as e:
+        pass
+    assert e.message == "Error!"
+        
+
 
 
 class TestPdprocessor(object):
