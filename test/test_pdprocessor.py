@@ -5,7 +5,7 @@ import os
 import pytest
 import datetime as dt
 from mock import Mock
-from pdprocessor.pdprocessor import PDProcessorError, Path, PDProcessor
+from pdprocessor.pdprocessor import PDProcessorError, Path, PDProcessor, ExcelPDProcessor
 
 
 class TestPDProcessorError(object):
@@ -185,7 +185,32 @@ class TestPDProcessor(object):
         assert processor.df['float'].tolist() == expected
         expected = [1, 2]
         assert processor.df['integer'].tolist() == expected
+
+
+class TestExcelPDProcessor(object):
+
+    def test_init(self):
+        processor = ExcelPDProcessor('path')
+        assert processor.sheet_name == 0
+        assert processor.header == 0
+        assert processor.encoding == 'iso-8859-1'
+        assert processor.skiprows == 0
+        assert processor.usecols == None
+        assert processor.parse_dates == False
+        assert processor.date_parser == None
+        assert processor.na_values == None
+        assert processor.thousands == None
+        assert processor.convert_float == True
+        assert processor.converters == None
+        assert processor.dtype == None
+        assert processor.true_values == None
+        assert processor.false_values == None
+        assert processor.engine == None
+        assert processor.squeeze == False
+        assert processor.data_map == None
         
+
+
 
 
 

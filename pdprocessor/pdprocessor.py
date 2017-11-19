@@ -111,4 +111,50 @@ class PDProcessor(Path):
         date = dt.datetime.strptime(data, self.date_format).date()
         return date
 
+class ExcelPDProcessor(PDProcessor):
+    """An Excel PDProcessor
+
+    sheet_name: integer or string used to determine sheet index or name (default=0)
+    encoding: sets the encoding of the file (default='iso-8859-1')
+    skiprows: number of rows to skip (zero based) (default=0)
+    usecols:
+      if None then parse all columns
+      if integer then indicates last column to be parsed
+      if list of ints then indicates list of column numbers to be parsed
+      If string then indicates comma separated list of Excel column letters and
+      column ranges (e.g. "A:E" or "A,C,E:F"). Ranges are inclusive of both sides.
+    """
+
+    sheet_name = 0
+    header = 0
+    encoding = 'iso-8859-1'
+    skiprows = 0
+    usecols = None
+    parse_dates = False
+    date_parser = None
+    na_values = None
+    thousands = None
+    convert_float = True
+    converters = None
+    dtype = None
+    true_values = None
+    false_values = None
+    engine = None
+    squeeze = False
+
+    data_map = None
+
+    def create_dataframe(self):
+        """Create the dataframe."""
+        df = pd.read_excel(self.path, sheet_name=self.sheet_name, header=self.header,
+                           skip_footer=self.skip_footer, index_col=self.index_col,
+                           names=self.names, usecols=self.usecols,
+                           parse_dates=self.parse_dates, date_parser=self.date_parser,
+                           na_values=self.na_values, thousands=self.thousands,
+                           convert_float=self.convert_float, converters=self.converters,
+                           dtype=self.dtype, true_values=self.true_values,
+                           false_values=self.false_value, engine=self.engine,
+                           squeeze=self.squeeze, encoding=self.encoding)
+        self.df = df
+
 

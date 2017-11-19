@@ -26,3 +26,13 @@ def dataframe():
     df.columns = ['String', 'Float', 'Integer', 'Date']
     return df
 
+@pytest.fixture
+def excel_data_map():
+    data_map = [
+        ('Date', 'OrderDate', format_date),
+        ('Region', 'Region', None),
+        ('Qty', 'Units', None),
+        ('Cost', 'Unit cost', None),
+        ('Ext Cost', 'Total', None)]
+    return data_map
+
