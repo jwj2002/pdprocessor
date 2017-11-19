@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 import datetime as dt
 
 class PDProcessorError(Exception):
@@ -127,8 +128,10 @@ class ExcelPDProcessor(PDProcessor):
 
     sheet_name = 0
     header = 0
-    encoding = 'iso-8859-1'
     skiprows = 0
+    skip_footer = 0
+    index_col = None
+    names = None
     usecols = None
     parse_dates = False
     date_parser = None
@@ -141,19 +144,21 @@ class ExcelPDProcessor(PDProcessor):
     false_values = None
     engine = None
     squeeze = False
+    encoding = 'iso-8859-1'
 
     data_map = None
 
     def create_dataframe(self):
         """Create the dataframe."""
-        df = pd.read_excel(self.path, sheet_name=self.sheet_name, header=self.header,
+        df = pd.read_excel(self.path, sheet_name=self.sheet_name,
+                           header=self.header, skiprows=self.skiprows, 
                            skip_footer=self.skip_footer, index_col=self.index_col,
                            names=self.names, usecols=self.usecols,
                            parse_dates=self.parse_dates, date_parser=self.date_parser,
                            na_values=self.na_values, thousands=self.thousands,
                            convert_float=self.convert_float, converters=self.converters,
                            dtype=self.dtype, true_values=self.true_values,
-                           false_values=self.false_value, engine=self.engine,
+                           false_values=self.false_values, engine=self.engine,
                            squeeze=self.squeeze, encoding=self.encoding)
         self.df = df
 

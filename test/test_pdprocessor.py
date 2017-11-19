@@ -193,8 +193,10 @@ class TestExcelPDProcessor(object):
         processor = ExcelPDProcessor('path')
         assert processor.sheet_name == 0
         assert processor.header == 0
-        assert processor.encoding == 'iso-8859-1'
         assert processor.skiprows == 0
+        assert processor.skip_footer == 0
+        assert processor.index_col == None
+        assert processor.names == None
         assert processor.usecols == None
         assert processor.parse_dates == False
         assert processor.date_parser == None
@@ -207,8 +209,23 @@ class TestExcelPDProcessor(object):
         assert processor.false_values == None
         assert processor.engine == None
         assert processor.squeeze == False
+        assert processor.encoding == 'iso-8859-1'
         assert processor.data_map == None
-        
+
+    def test_create_dataframe(self, excelpdprocessor, excel_data_map):
+        """Test create_dataframe."""
+
+        processor = excelpdprocessor
+        processor.create_dataframe()
+        expected = ['OrderDate', 'Region', 'Rep', 'Item', 'Units', 'Unit Cost',
+                    'Total']
+        assert processor.df.columns.tolist() == expected
+        assert processor.df.shape == (43, 7)
+
+
+
+
+
 
 
 

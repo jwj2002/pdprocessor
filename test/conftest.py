@@ -3,6 +3,7 @@
 
 import pytest
 import pandas as pd
+from pdprocessor.pdprocessor import ExcelPDProcessor
 
 
 @pytest.fixture
@@ -29,10 +30,16 @@ def dataframe():
 @pytest.fixture
 def excel_data_map():
     data_map = [
-        ('Date', 'OrderDate', format_date),
+        ('Date', 'OrderDate', 'format_date'),
         ('Region', 'Region', None),
         ('Qty', 'Units', None),
         ('Cost', 'Unit cost', None),
         ('Ext Cost', 'Total', None)]
     return data_map
+
+@pytest.fixture
+def excelpdprocessor():
+    sfile = 'data/SampleData.xlsx'
+    processor = ExcelPDProcessor(sfile)
+    return processor
 
