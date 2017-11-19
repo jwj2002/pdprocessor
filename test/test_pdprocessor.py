@@ -107,10 +107,30 @@ class TestPDProcessor(object):
 
     def test_validate_dataframe_correct(self, dataframe, data_map):
         processor = PDProcessor('path')
-        processor.data_map = data_map
-        processor.init_data_map()
+        processor.source_cols = ['String', 'Float', 'Integer', 'Date']
         processor.df = dataframe
         processor.validate_dataframe()
+
+    def test_validate_dateframe_corret2(self, dataframe):
+        """Test validate dataframe when dataframe contains more that source_cols."""
+
+        processor = PDProcessor('path')
+        processor.source_cols = ['String', 'Float', 'Integer']
+        processor.df = dataframe
+        processor.validate_dataframe()
+
+    def test_validate_dataframe_incorrect(self, dataframe):
+        """Test validate_dataframe with incorrect col in source_cols"""
+
+        processor = PDProcessor('path')
+        processor.source_cols = ['String', 'Float', 'Integer', 'Byte']
+        processor.df = dataframe
+        try:
+            processor.validate_dataframe()
+        except PDProcessorError as e:
+            pass
+        expected = "Expected column 'Byte' is not in the source file."
+        assert e.message == expected
 
     def test_format_uppercase(self):
         """Test format none."""
@@ -221,6 +241,20 @@ class TestExcelPDProcessor(object):
                     'Total']
         assert processor.df.columns.tolist() == expected
         assert processor.df.shape == (43, 7)
+
+    # def test_validate_dataframe(self, excelpdprocessor, excel_data_map):
+    #     """Test validate_dataframe."""
+
+    #     processor = excelpdprocessor
+    #     processor.data_map = excel_data_map
+    #     processor.init_data_map()
+    #     processor.create_dataframe()
+    #     processor.validate_dataframe()
+    #     expected = []
+    #     assert processor.source_cols == expected
+
+
+
 
 
 

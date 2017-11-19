@@ -33,7 +33,7 @@ def excel_data_map():
         ('Date', 'OrderDate', 'format_date'),
         ('Region', 'Region', None),
         ('Qty', 'Units', None),
-        ('Cost', 'Unit cost', None),
+        ('Cost', 'Unit Cost', None),
         ('Ext Cost', 'Total', None)]
     return data_map
 

@@ -78,12 +78,16 @@ class PDProcessor(Path):
         self.data_map = data_map
 
     def validate_dataframe(self):
-        """Validate the dataframe by verifying source_col names against self.data_map."""
+        """Validate the dataframe by verifying source_col are in df.columns."""
 
-        if list(set(self.df.columns.tolist())) == self.source_cols:
+        source_cols = set(self.source_cols)
+        actual_cols = set(self.df.columns.tolist())
+        if source_cols <= actual_cols:
             return
-        message = 'The source file header does not match the expected header.'
-        raise PDProcessorError(message)
+        for col in source_cols:
+            if col not in actual_cols:
+                message = "Expected column '{col}' is not in the source file.".format(col=col)
+                raise PDProcessorError(message)
 
     def format_dataframe(self):
         for final_col, source_col, formatter in self.data_map:
