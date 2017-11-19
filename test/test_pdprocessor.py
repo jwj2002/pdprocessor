@@ -242,16 +242,14 @@ class TestExcelPDProcessor(object):
         assert processor.df.columns.tolist() == expected
         assert processor.df.shape == (43, 7)
 
-    # def test_validate_dataframe(self, excelpdprocessor, excel_data_map):
-    #     """Test validate_dataframe."""
+    def test_validate_dataframe(self, excelpdprocessor, excel_data_map):
+        """Test validate_dataframe."""
 
-    #     processor = excelpdprocessor
-    #     processor.data_map = excel_data_map
-    #     processor.init_data_map()
-    #     processor.create_dataframe()
-    #     processor.validate_dataframe()
-    #     expected = []
-    #     assert processor.source_cols == expected
+        processor = excelpdprocessor
+        processor.data_map = excel_data_map
+        processor.init_data_map()
+        processor.create_dataframe()
+        processor.validate_dataframe()
 
 
 
