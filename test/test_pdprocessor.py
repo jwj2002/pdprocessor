@@ -4,6 +4,7 @@ Tests for `pdprocessor` module.
 import os
 import pytest
 import datetime as dt
+from mock import Mock
 from pdprocessor.pdprocessor import PDProcessorError, Path, PDProcessor
 
 
@@ -157,13 +158,39 @@ class TestPDProcessor(object):
         processor.init_data_map()
         processor.df = dataframe
         processor.format_dataframe()
-        expected = set(['String', 'Float', 'Integer', 'Date', 'string', 'date'])
+        expected = set(['string', 'date', 'float', 'integer'])
         actual = set(processor.df.columns.tolist())
         assert actual == expected
         expected = ['STRING', 'STRING']
         assert processor.df['string'].tolist() == expected
         expected = [dt.datetime(1970, 05, 06).date(), dt.datetime(2017, 11, 18).date()]
         assert processor.df['date'].tolist() == expected
+
+    def test_process(self, dataframe, data_map):
+        """Test process."""
+
+        sfile = os.path.join(os.path.dirname(__file__), __file__)
+        processor = PDProcessor(sfile)
+        processor.data_map = data_map
+        processor.df = dataframe
+        processor.process()
+        expected = set(['string', 'date', 'float', 'integer'])
+        actual = set(processor.df.columns.tolist())
+        assert actual == expected
+        expected = ['STRING', 'STRING']
+        assert processor.df['string'].tolist() == expected
+        expected = [dt.datetime(1970, 05, 06).date(), dt.datetime(2017, 11, 18).date()]
+        assert processor.df['date'].tolist() == expected
+        expected = [1.47, 0]
+        assert processor.df['float'].tolist() == expected
+        expected = [1, 2]
+        assert processor.df['integer'].tolist() == expected
+        
+
+
+
+
+
 
 
 

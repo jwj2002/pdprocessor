@@ -28,8 +28,11 @@ class PDProcessor(Path):
         """Process the file."""
 
         self.validate_path()
-        self.create_dataframe()
         self.init_data_map()
+        self.create_dataframe()
+        self.validate_dataframe()
+        self.format_dataframe()
+
 
     def validate_path(self):
         """Validate the path point to a file."""
@@ -73,11 +76,6 @@ class PDProcessor(Path):
                 raise PDProcessorError(message)
         self.data_map = data_map
 
-    def _format_none(self, data):
-        """Dummy formatter when formatter in self.data_map is None."""
-
-        return data
-
     def validate_dataframe(self):
         """Validate the dataframe by verifying source_col names against self.data_map."""
 
@@ -88,8 +86,17 @@ class PDProcessor(Path):
 
     def format_dataframe(self):
         for final_col, source_col, formatter in self.data_map:
-            if formatter != self._format_none:
-                self.df[final_col] = self.df[source_col].apply(formatter)
+            self.df[final_col] = self.df[source_col].apply(formatter)
+        self.df = self.df[self.final_cols]
+
+    def set_final_cols(self):
+        self.df = self.df[self.final_cols]
+
+
+    def _format_none(self, data):
+        """Dummy formatter when formatter in self.data_map is None."""
+
+        return data
 
     def format_uppercase(self, data):
         return data.upper()
