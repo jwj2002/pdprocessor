@@ -40,6 +40,9 @@ nosetests.xml
 # si
 *.mo
 
+# Build
+/dist
+
 # Mr Developer
 .mr.developer.cfg
 .project

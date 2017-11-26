@@ -32,7 +32,9 @@ class PDProcessor(Path):
         self.init_data_map()
         self.create_dataframe()
         self.validate_dataframe()
+        self.preprocess()
         self.format_dataframe()
+        self.postprocess()
 
 
     def validate_path(self):
@@ -89,10 +91,18 @@ class PDProcessor(Path):
                 message = "Expected column '{col}' is not in the source file.".format(col=col)
                 raise PDProcessorError(message)
 
+    def preprocess(self):
+        """Provide preprocess steps."""
+        pass
+
     def format_dataframe(self):
         for final_col, source_col, formatter in self.data_map:
             self.df[final_col] = self.df[source_col].apply(formatter)
         self.df = self.df[self.final_cols]
+
+    def postprocess(self):
+        """Provide post process steps."""
+        pass
 
     def set_final_cols(self):
         self.df = self.df[self.final_cols]

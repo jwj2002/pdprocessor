@@ -251,31 +251,19 @@ class TestExcelPDProcessor(object):
         processor.create_dataframe()
         processor.validate_dataframe()
 
+    def test_process(self, excelpdprocessor, excel_data_map):
+        """Test process."""
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
+        processor = excelpdprocessor
+        processor.data_map = excel_data_map
+        processor.process()
+        expected = ['Date', 'Region', 'Qty', 'Cost', 'Ext Cost']
+        assert processor.df.columns.tolist() == expected
+        assert processor.df.shape == (43, 5)
+        expected = [
+            dt.datetime(2016, 1, 6).date(),
+            dt.datetime(2016, 1, 23).date(),
+        ]
+        assert processor.df['Date'].tolist()[:2] == expected
+        expected = [95, 50]
+        assert processor.df['Qty'].tolist()[:2] == expected
