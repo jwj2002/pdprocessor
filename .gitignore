@@ -41,7 +41,7 @@ nosetests.xml
 *.mo
 
 # Build
-/dist
+dist
 
 # Mr Developer
 .mr.developer.cfg
