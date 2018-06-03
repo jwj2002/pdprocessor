@@ -214,7 +214,7 @@ class TestExcelPDProcessor(object):
         assert processor.sheet_name == 0
         assert processor.header == 0
         assert processor.skiprows == 0
-        assert processor.skip_footer == 0
+        assert processor.skipfooter == 0
         assert processor.index_col == None
         assert processor.names == None
         assert processor.usecols == None

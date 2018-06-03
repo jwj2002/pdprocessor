@@ -143,7 +143,7 @@ class ExcelPDProcessor(PDProcessor):
     sheet_name = 0
     header = 0
     skiprows = 0
-    skip_footer = 0
+    skipfooter = 0
     index_col = None
     names = None
     usecols = None
@@ -166,7 +166,7 @@ class ExcelPDProcessor(PDProcessor):
         """Create the dataframe."""
         df = pd.read_excel(self.path, sheet_name=self.sheet_name,
                            header=self.header, skiprows=self.skiprows, 
-                           skip_footer=self.skip_footer, index_col=self.index_col,
+                           skipfooter=self.skipfooter, index_col=self.index_col,
                            names=self.names, usecols=self.usecols,
                            parse_dates=self.parse_dates, date_parser=self.date_parser,
                            na_values=self.na_values, thousands=self.thousands,
