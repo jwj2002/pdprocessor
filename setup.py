@@ -23,7 +23,7 @@ history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 setup(
     name='pdprocessor',
-    version='0.1.0',
+    version='0.1.1',
     description='A project that uses pandas to process delimited files.',
     long_description=readme + '\n\n' + doclink + '\n\n' + history,
     author='Jason Job',
